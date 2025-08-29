@@ -1,0 +1,42 @@
+---
+title: "Clase 2 - Medicinas"
+author: "Juan Manuel Espinosa"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(fpp3)
+```
+
+```{r}
+medicinas <- read_csv("datos/medicinas.csv")
+medicinas
+```
+
+
+```{r}
+#Convertir a tsibble
+medicinas <- medicinas |>
+  mutate(fecha = yearmonth(fecha)) |>
+  as_tsibble(index = fecha)
+
+medicinas
+```
+
+```{r}
+#Graficamos la serie
+medicinas |>
+  autoplot(Cost)
+```
+
+```{r}
+#Descomposicion clasica
+ medicinas |>
+   model(
+     classical_decomposition(Cost)) |>
+   components() |>
+   autoplot()
+```
+
